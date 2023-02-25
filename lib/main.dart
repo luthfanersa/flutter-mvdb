@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:movie_db/app_constant.dart';
+import 'package:movie_db/app_constants.dart';
 import 'package:movie_db/movie/pages/movie_page.dart';
 import 'package:movie_db/movie/repositories/movie_repository.dart';
 import 'package:movie_db/movie/repositories/movie_repository_impl.dart';
@@ -14,8 +14,8 @@ void main() {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
 final dioOptions = BaseOptions(
-  baseUrl: AppConstant.baseUrl,
-  queryParameters: { 'api_key': AppConstant.apiKey},
+  baseUrl: AppConstants.baseUrl,
+  queryParameters: { 'api_key': AppConstants.apiKey},
 );
 
 
@@ -41,11 +41,12 @@ class App extends StatelessWidget {
           ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Movie DB',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         home: const MoviePage(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
