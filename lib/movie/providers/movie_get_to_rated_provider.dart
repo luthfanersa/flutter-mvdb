@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:movie_db/movie/models/movie_model.dart';
 import 'package:movie_db/movie/repositories/movie_repository.dart';
 
-class MovieGetDiscoverProvider with ChangeNotifier {
+import '../models/movie_model.dart';
+
+class MovieGetTopRatedProvider with ChangeNotifier {
   final MovieRepository _movieRepository;
 
-  MovieGetDiscoverProvider(this._movieRepository);
+  MovieGetTopRatedProvider(this._movieRepository);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -14,52 +15,56 @@ class MovieGetDiscoverProvider with ChangeNotifier {
   final List<MovieModel> _movies = [];
   List<MovieModel> get movies => _movies;
 
-  void getDiscover(BuildContext context) async {
+  void getPopular(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
 
-    final result = await _movieRepository.getDiscover();
+    final result = await _movieRepository.getTopRated();
 
     result.fold(
-      (errorMessage) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(errorMessage),
-        ));
+      (messageError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(messageError),
+          ),
+        );
+
         _isLoading = false;
         notifyListeners();
-
         return;
       },
       (response) {
         _movies.clear();
         _movies.addAll(response.results);
+
         _isLoading = false;
         notifyListeners();
-        return null;
+        return;
       },
     );
   }
 
-  void getDiscoverWithPaging(
+  void getPopularWithPagination(
     BuildContext context, {
     required PagingController pagingController,
     required int page,
   }) async {
-    //pagination
-    final result = await _movieRepository.getDiscover(page: page);
+    final result = await _movieRepository.getTopRated();
+ 
+   result.fold(
+      (messageError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(messageError),
+          ),
+        );
 
-    result.fold(
-      (errorMessage) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(errorMessage),
-        ));
-
-        pagingController.error = errorMessage;
+pagingController.error = messageError;
 
         return;
       },
       (response) {
-        if (response.results.length < 20) {
+      if (response.results.length < 20) {
           pagingController.appendLastPage(response.results);
         } else {
           pagingController.appendPage(response.results, page + 1);
@@ -67,5 +72,6 @@ class MovieGetDiscoverProvider with ChangeNotifier {
         return;
       },
     );
+ 
   }
 }

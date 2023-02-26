@@ -1,4 +1,4 @@
-# movie_db
+# CineVault
 
 A new Flutter project.
 
