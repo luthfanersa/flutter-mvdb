@@ -44,12 +44,12 @@ class MovieGetTopRatedProvider with ChangeNotifier {
     );
   }
 
-  void getPopularWithPagination(
+  void getPopularWithPaging(
     BuildContext context, {
     required PagingController pagingController,
     required int page,
   }) async {
-    final result = await _movieRepository.getTopRated();
+    final result = await _movieRepository.getTopRated(page: page);
  
    result.fold(
       (messageError) {

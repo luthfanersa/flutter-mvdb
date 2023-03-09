@@ -35,20 +35,40 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final result = await _dio.get(
         '/movie/top_rated',
-         queryParameters: {'page': page},
-         );
+        queryParameters: {'page': page},
+      );
 
-        if (result.statusCode == 200 && result.data != null) {
-          final model = MovieResponseModel.fromMap(result.data);
-          return Right(model);
-        }
+      if (result.statusCode == 200 && result.data != null) {
+        final model = MovieResponseModel.fromMap(result.data);
+        return Right(model);
+      }
 
-        return const Left('Error get top rated movies');
+      return const Left('Error get top rated movies');
     } on DioError catch (e) {
       if (e.response != null) {
         return Left(e.response.toString());
       }
       return const Left('Another error on get top rated movies');
+    }
+  }
+
+  @override
+  Future<Either<String, MovieResponseModel>> getNowPlaying(
+      {int page = 1}) async {
+    try {
+      final result =
+          await _dio.get('/movie/now_playing', queryParameters: {'page': page});
+      if (result.statusCode == 200 && result.data != null) {
+        final model = MovieResponseModel.fromMap(result.data);
+        return Right(model);
+      }
+
+      return const Left('Error get now playing movies');
+    } on DioError catch (e) {
+      if (e.response != null) {
+        return Left(e.response.toString());
+      }
+      return const Left('Another error on get now playing movies');
     }
   }
 }

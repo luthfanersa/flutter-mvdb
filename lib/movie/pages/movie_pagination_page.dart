@@ -5,9 +5,10 @@ import 'package:movie_db/movie/providers/movie_get_discover_provider.dart';
 import 'package:movie_db/widget/item_movie_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/movie_get_to_rated_provider.dart';
+import '../providers/movie_get_now_playing_provider.dart';
+import '../providers/movie_get_top_rated_provider.dart';
 
-enum TypeMovie { discover, popular }
+enum TypeMovie { discover, popular, nowPlaying }
 
 class MoviePaginationPage extends StatefulWidget {
   const MoviePaginationPage({super.key, required this.type});
@@ -34,7 +35,14 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
               );
           break;
         case TypeMovie.popular:
-          context.read<MovieGetTopRatedProvider>().getPopularWithPagination(
+          context.read<MovieGetTopRatedProvider>().getPopularWithPaging(
+              context,
+              pagingController: _pagingController,
+              page: pageKey,
+              );
+          break;
+        case TypeMovie.nowPlaying:
+          context.read<MovieGetNowPlayingProvider>().getNowPlayingWithPaging(
               context,
               pagingController: _pagingController,
               page: pageKey,
@@ -55,6 +63,8 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
               return const Text('Discover Movies');
             case TypeMovie.popular:
               return const Text('Top Rated Movies');
+            case TypeMovie.nowPlaying:
+              return const Text('Now Playing Movies');
           }
         }),
         backgroundColor: Colors.white,

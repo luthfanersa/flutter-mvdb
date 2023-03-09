@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_db/movie/providers/movie_get_to_rated_provider.dart';
+import 'package:movie_db/movie/providers/movie_get_top_rated_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../widget/image_widget.dart';

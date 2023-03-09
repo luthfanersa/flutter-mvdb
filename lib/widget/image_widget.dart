@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../app_constants.dart';
 
 class ImageNetworkWidget extends StatelessWidget {
-  const ImageNetworkWidget(
-      {super.key,
-              this.imageSrc,
-      required this.height,
-      required this.width,
-      this.radius = 0.0,
-      });
+  const ImageNetworkWidget({
+    super.key,
+    this.imageSrc,
+    required this.height,
+    required this.width,
+    this.radius = 0.0,
+  });
 
   final String? imageSrc;
   final double height;
@@ -25,6 +25,14 @@ class ImageNetworkWidget extends StatelessWidget {
         height: height,
         width: width,
         fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          return Container(
+            height: height,
+            width: width,
+            color: Colors.black26,
+            child: child,
+          );
+        },
         errorBuilder: (_, __, ___) {
           return SizedBox(
             height: height,

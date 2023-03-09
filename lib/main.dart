@@ -8,7 +8,8 @@ import 'package:movie_db/movie/repositories/movie_repository_impl.dart';
 import 'package:provider/provider.dart';
 
 import 'movie/providers/movie_get_discover_provider.dart';
-import 'movie/providers/movie_get_to_rated_provider.dart';
+import 'movie/providers/movie_get_now_playing_provider.dart';
+import 'movie/providers/movie_get_top_rated_provider.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +43,9 @@ class App extends StatelessWidget {
           ),
           ChangeNotifierProvider(
           create: (_) => MovieGetTopRatedProvider(movieRepository),
+          ),
+          ChangeNotifierProvider(
+          create: (_) => MovieGetNowPlayingProvider(movieRepository),
           ),
       ],
       child: MaterialApp(
